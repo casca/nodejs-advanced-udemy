@@ -28,8 +28,6 @@ while (shouldContinue()) {
   // 4) Look at pendingTimers. Call any setImmediate
 
   // 5) Handle any 'close' events
-
-
 }
 
 // exit back to terminal
