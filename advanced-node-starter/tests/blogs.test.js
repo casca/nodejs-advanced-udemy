@@ -63,30 +63,25 @@ describe('When logged in', () => {
 });
 
 describe('User is not logged in', async () => {
-  test('user cannot create blog posts', async () => {
-    const result = await page.evaluate(() =>
-      fetch('/api/post', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title: 'My Title', content: 'My Content' }),
-      }).then((res) => res.json()),
-    );
-    expect(result).toEqual({ error: 'You must log in!' });
+  const actions = [
+    { method: 'get', path: '/api/blogs' },
+    { method: 'post', path: '/api/blogs', data: { title: 'My Title', content: 'My Content' } },
+  ];
+
+  test('blog related actions are prohibited', async () => {
+    const results = await page.execRequests(actions);
+    for (let result of results) {
+      expect(result).toEqual({ error: 'You must log in !' });
+    }
   });
 
-  test('user cannot get a list of posts', async () => {
-    const result = await page.evalute(() =>
-      fetch('/api/blogs', {
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((res) => res.json()),
-    );
-  });
-  expect(result).toEqual({ error: 'You must log in!' });
+  // test('user cannot create blog posts', async () => {
+  //   const result = await page.post('/api/blogs', { title: 'My Title', content: 'My Content' });
+  //   expect(result).toEqual({ error: 'You must log in!' });
+  // });
+
+  // test('user cannot get a list of posts', async () => {
+  //   const result = await page.get('/api/blogs');
+  //   expect(result).toEqual({ error: 'You must log in!' });
+  // });
 });
