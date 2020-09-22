@@ -3,4 +3,6 @@ module.exports = {
   googleClientSecret: '8mkniDQOqacXtlRD3gA4n2az',
   mongoURI: 'mongodb://localhost:27017/node-advanced-udemy',
   cookieKey: '123123123',
+  accessKeyId: 'foobar',
+  secretAccessKey: 'barbaz',
 };
